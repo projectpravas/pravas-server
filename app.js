@@ -1,8 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require("dotenv").config({ path: "../.env" });
-require("./db/db");
+require("dotenv").config({ path: "./.env" });
+require("./v1/db/db");
 
 const port = process.env.PORT || 8888;
 
@@ -18,8 +18,8 @@ app.use(express.static("uploads"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/api/v1/users", require("./routes/user.routes"));
-app.use("/api/v1/auth", require("../v1/routes/auth.routes"));
+app.use("/api/v1/users", require("./v1/routes/user.routes"));
+app.use("/api/v1/auth", require("./v1/routes/auth.routes"));
 
 app.listen(port, () => {
   console.log(`App listening on port: ${port}`);
