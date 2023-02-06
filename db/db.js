@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongooses");
 
 const url =
   "mongodb+srv://kirtikumar:Abcd!1234@pravas.vfjckte.mongodb.net/?retryWrites=true&w=majority";
