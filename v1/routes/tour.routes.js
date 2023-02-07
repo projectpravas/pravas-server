@@ -4,7 +4,7 @@ const { extname } = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "v1/uploads/user-profiles");
+    cb(null, "v1/uploads/tour-images");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -15,17 +15,21 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const {
-  createUser,
-  deleteUser,
-  updateUser,
-  getOneUser,
-  getAllUsers,
-} = require("../controllers/user.controller");
+  createTour,
+  updateTour,
+  deleteTour,
+  getOneTour,
+  getAllTour,
+} = require("../controllers/tour.controllers");
 
-router.get("/", getAllUsers);
-router.get("/:id", getOneUser);
-router.delete("/:id", deleteUser);
-router.put("/:id", upload.single("avatar"), updateUser);
-router.post("/", upload.single("avatar"), createUser);
+router.get("/", getAllTour);
+router.get("/:id", getOneTour);
+router.delete("/:id", deleteTour);
+router.put(
+  "/:id",
+  upload.fields([{ name: "images", maxCount: 10 }]),
+  updateTour
+);
+router.post("/", upload.fields([{ name: "images", maxCount: 10 }]), createTour);
 
 module.exports = router;
