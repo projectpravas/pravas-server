@@ -1,7 +1,7 @@
-const mongoose = require("mongooses");
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", true);
 
-const url =
-  "mongodb+srv://kirtikumar:Abcd!1234@pravas.vfjckte.mongodb.net/?retryWrites=true&w=majority";
+const url = `${process.env.dbURL}`;
 
 mongoose.connect(url);
 
