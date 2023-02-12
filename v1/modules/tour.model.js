@@ -36,6 +36,7 @@ const TourSchema = new mongoose.Schema({
   },
   customized: Boolean,
   tourStatus: String,
+  packageStatus: String,
   feedbacks: [
     {
       pravasiId: String,
