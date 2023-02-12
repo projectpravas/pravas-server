@@ -7,10 +7,10 @@ const {
   updateEnquiry,
 } = require("../controllers/enquiry.controller");
 
+router.get("/", getAllEnquiries);
+router.get("/:id", getOneEnquiry);
+router.delete("/:id", deleteEnquiry);
 router.post("/", createEnquiry);
 router.put("/:id", updateEnquiry);
-router.delete("/:id", deleteEnquiry);
-router.get("/:id", getOneEnquiry);
-router.get("/", getAllEnquiries);
 
 module.exports = router;

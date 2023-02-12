@@ -103,7 +103,11 @@ class TourCtrl {
   static getAllTour(req, res) {
     const { query } = req?.query;
 
-    TourModel.find()
+    const filter = {};
+
+    if (query) filter.query = role;
+
+    TourModel.find(filter)
       .then((result) => {
         res
           .status(200)

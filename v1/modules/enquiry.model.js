@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const EnquirySchema = new mongoose.Schema({
-  enuiryId: Number,
+  enquiryId: Number,
+  contactPersonName: String,
+  contactPersonMobile: String,
+  contactPersonEmail: String,
   destinations: [{ place: String }],
   travelDates: { from: String, to: String },
   travelDuration: Number,
@@ -15,8 +18,9 @@ const EnquirySchema = new mongoose.Schema({
     dinner: Boolean,
   },
   anythingElse: String,
+  enquiryStatus: String,
 });
 
-EnquirySchema.plugin(AutoIncrement, { inc_field: "enuiryId" });
+EnquirySchema.plugin(AutoIncrement, { inc_field: "enquiryId" });
 const EnquiryModel = mongoose.model("enquiry", EnquirySchema, "enquiries");
 module.exports = EnquiryModel;

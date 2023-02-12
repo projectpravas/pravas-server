@@ -19,12 +19,13 @@ class EnquiryCtrl {
   static updateEnquiry(req, res) {
     const { id } = req?.params;
     const enq = req.body;
+    console.log(enq);
     const filter = {};
 
     if (Number(id).toString() == "NaN") {
       filter._id = id;
     } else {
-      filter.userId = Number(id);
+      filter.enquiryId = Number(id);
     }
 
     EnquiryModel.updateOne(filter, enq, { new: true })
@@ -48,7 +49,7 @@ class EnquiryCtrl {
     if (Number(id).toString() == "NaN") {
       filter._id = id;
     } else {
-      filter.userId = Number(id);
+      filter.enquiryId = Number(id);
     }
     EnquiryModel.deleteOne(filter)
       .then((result) => {
@@ -71,7 +72,7 @@ class EnquiryCtrl {
     if (Number(id).toString() == "NaN") {
       filter._id = id;
     } else {
-      filter.userId = Number(id);
+      filter.enquiryId = Number(id);
     }
 
     EnquiryModel.findOne(filter)
