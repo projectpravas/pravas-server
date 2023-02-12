@@ -8,8 +8,6 @@ class TourCtrl {
     if (tourObj?.duration) tourObj.duration = JSON.parse(tourObj?.duration);
     if (tourObj?.tourPlan) tourObj.tourPlan = JSON.parse(tourObj?.tourPlan);
 
-    console.log(tourObj);
-
     if (req?.files?.images)
       tourObj.images = req?.files?.images.map(
         (file) => `tour-images/${file?.filename}`
@@ -101,9 +99,13 @@ class TourCtrl {
   }
 
   static getAllTour(req, res) {
-    const { query } = req?.query;
+    const { category } = req?.query;
 
-    TourModel.find()
+    const filter = {};
+
+    if (category) filter.category = category;
+
+    TourModel.find(filter)
       .then((result) => {
         res
           .status(200)
