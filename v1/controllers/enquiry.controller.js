@@ -18,8 +18,8 @@ class EnquiryCtrl {
 
   static updateEnquiry(req, res) {
     const { id } = req?.params;
-    const enq = req.body;
-    console.log(enq);
+    const { enq } = req.body;
+
     const filter = {};
 
     if (Number(id).toString() == "NaN") {
@@ -28,7 +28,7 @@ class EnquiryCtrl {
       filter.enquiryId = Number(id);
     }
 
-    EnquiryModel.updateOne(filter, enq, { new: true })
+    EnquiryModel.updateOne(filter, { enquiryStatus: enq }, { new: true })
       .then((result) => {
         res
           .status(200)
