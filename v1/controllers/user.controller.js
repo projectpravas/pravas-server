@@ -35,7 +35,7 @@ class UserCtrl {
   static updateUser(req, res) {
     const { id } = req?.params;
     const user = req.body;
-
+    console.log(user);
     const filter = {};
 
     if (Number(id).toString() == "NaN") {
