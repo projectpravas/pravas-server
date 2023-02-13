@@ -5,6 +5,8 @@ class BlogCtrl {
     const blog = req.body;
 
     if (req?.file) blog.image = `blog-images/${req?.file?.filename}`;
+    if (blog?.categories) blog.categories = JSON.parse(blog?.categories);
+    if (blog?.tags) blog.tags = JSON.parse(blog?.tags);
 
     new BlogModel(blog)
       .save()

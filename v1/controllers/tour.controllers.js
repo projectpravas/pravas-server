@@ -105,7 +105,7 @@ class TourCtrl {
 
     if (category) filter.category = category;
 
-    TourModel.find()
+    TourModel.find(filter)
       .then((result) => {
         res
           .status(200)
