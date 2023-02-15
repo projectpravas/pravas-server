@@ -7,7 +7,7 @@ const EnquirySchema = new mongoose.Schema({
   contactPersonMobile: String,
   contactPersonEmail: String,
   destinations: [{ place: String }],
-  travelDates: { from: String, to: String },
+  travelDates: { from: Date, to: Date },
   travelDuration: Number,
   participants: [{ name: String, age: Number }],
   hotelCategory: String,
