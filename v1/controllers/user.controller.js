@@ -2,6 +2,7 @@ const UserModel = require("../modules/user.model");
 const messages = require("../helpers/messages");
 const { encrypt } = require("../helpers/encryption");
 const { userFilter, userFilterArray } = require("../helpers/user-utilities");
+const { isValidObjectId } = require("../helpers/mongoIdValidator");
 
 class UserCtrl {
   static createUser(req, res) {
@@ -124,11 +125,12 @@ class UserCtrl {
   } //getOneUser
 
   static getAllUsers(req, res) {
-    const { role } = req.query;
+    const { role, mobile } = req.query;
 
     const filter = {};
 
     if (role) filter.role = role;
+    if (mobile) filter.mobile = new RegExp(`^${mobile}`, "g");
 
     UserModel.find(filter)
       .populate("tours")
@@ -154,6 +156,25 @@ class UserCtrl {
           .send({ message: messages?.userMessages?.notGetAll, error: err });
       });
   } //getAllUsers
+
+  static async isValidUserId(req, res) {
+    const testArr = req?.body;
+
+    if (Array.isArray(testArr)) {
+      const resultArr = [];
+      for (const testcase of testArr) {
+        if (isValidObjectId(testcase)) {
+          const user = await UserModel.findOne({ _id: testcase });
+          if (user?._id) {
+            resultArr.push(user);
+          } else resultArr.push(testcase);
+        } else resultArr.push(testcase);
+      }
+      res.status(200).send({ message: "tested", data: resultArr });
+    } else {
+      res.status(500).send({ message: "Couldn't tested", error: null });
+    }
+  } //validIdChecker
 }
 
 module.exports = UserCtrl;
