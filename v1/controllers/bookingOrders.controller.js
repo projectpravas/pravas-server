@@ -48,6 +48,34 @@ class BookingCtrl {
       res.status(500).send({ message: "Payment Failed", error: false });
     }
   }
+
+  static getPaymentHistory(req, res) {
+    const { from, to, last } = req?.body;
+
+    const Razorpay = require("razorpay");
+    const razorpay = new Razorpay({
+      key_id: process.env.razorPayId,
+      key_secret: process.env.razorPayKey,
+    });
+
+    razorpay.payments.all(
+      { from: from, to: to, count: Number(last) },
+      function (error, response) {
+        if (error) {
+          console.error(error);
+          res
+            .status(500)
+            .send({ message: "Couldn't get payment history", error: error });
+        } else {
+          res.status(200).send({
+            message: "Payment history fetched Successfully",
+            data: response?.items,
+          });
+          console.log(response?.items);
+        }
+      }
+    );
+  }
 }
 
 module.exports = BookingCtrl;

@@ -3,6 +3,7 @@ const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const TourSchema = new mongoose.Schema({
   tourId: Number,
+  packageId: String,
   title: String,
   category: String,
   price: Number | String,
@@ -13,6 +14,7 @@ const TourSchema = new mongoose.Schema({
   maxPersons: Number | String,
   participants: Array,
   tourLocation: String,
+  tourDate: Date,
   featured: Boolean,
   images: Array,
   tourPlan: {
