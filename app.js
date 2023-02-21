@@ -18,6 +18,7 @@ app.use(express.static("v1/uploads"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use("/api/v1/enquiries", require("./v1/routes/enquiry.routes"));
 app.use("/api/v1/users", require("./v1/routes/user.routes"));
 app.use("/api/v1/auth", require("./v1/routes/auth.routes"));
 app.use("/api/v1/tours", require("./v1/routes/tour.routes"));
