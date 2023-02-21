@@ -103,7 +103,7 @@ class UserCtrl {
     UserModel.findOne(filter)
       .populate("tours")
       .then((result) => {
-        if (result._id == undefined) {
+        if (result?._id == undefined) {
           res.status(404).send({
             message: messages?.userMessages?.userNotAvailable,
             data: null,
@@ -175,6 +175,57 @@ class UserCtrl {
       res.status(500).send({ message: "Couldn't tested", error: null });
     }
   } //validIdChecker
+
+  static addRemoveTourId(req, res) {
+    const { userId, op, tourId } = req?.body;
+
+    const filter = {};
+
+    if (Number(userId).toString() == "NaN") {
+      filter._id = userId;
+    } else {
+      filter.userId = Number(userId);
+    }
+
+    if (op == "add") {
+      UserModel.updateOne(
+        filter,
+        { $addToSet: { tours: tourId } },
+        { new: true }
+      )
+        .then((result) => {
+          res
+            .status(200)
+            .send({ message: "Tour Added into your account", data: result });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).send({
+            message: "Tour Couldn't Added into your account",
+            error: err,
+          });
+        });
+    } else {
+      //remove
+      UserModel.updateOne(
+        filter,
+        { $pull: { tours: `${tourId}` } },
+        { new: true }
+      )
+        .then((result) => {
+          res
+            .status(200)
+            .send({ message: "Tour Removed from your account", data: result });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).send({
+            message: "Tour Couldn't Removed from your account",
+            error: err,
+          });
+        });
+    }
+  } //addRemoveTourId
 }
 
 module.exports = UserCtrl;
