@@ -204,6 +204,31 @@ class TourCtrl {
         });
       });
   }
+
+  static getUpcomingTours(req, res) {
+    const { packageId } = req?.params;
+
+    const filter = {
+      $and: [
+        { category: `tour` },
+        { packageId: `${packageId}` },
+        { tourDate: { $gte: new Date() } },
+      ],
+    };
+
+    TourModel.find(filter)
+      .then((result) => {
+        res
+          .status(200)
+          .send({ message: "Upcoming Tours fetched..", data: result });
+      })
+      .catch((err) => {
+        console.error(err);
+        res
+          .status(500)
+          .send({ message: "Upcoming Tours couldn't fetched..", error: err });
+      });
+  }
 }
 
 module.exports = TourCtrl;
