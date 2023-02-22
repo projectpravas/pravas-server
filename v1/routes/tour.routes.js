@@ -21,12 +21,15 @@ const {
   getOneTour,
   getAllTour,
   getUpcomingTours,
+  updateReview,
 } = require("../controllers/tour.controllers");
 
 router.get("/", getAllTour);
 router.get("/:id", getOneTour);
 router.get("/upcoming-tours/:packageId", getUpcomingTours);
 router.delete("/:id", deleteTour);
+router.put("/:id", updateReview);
+
 router.put(
   "/:id",
   upload.fields([{ name: "images", maxCount: 10 }]),
