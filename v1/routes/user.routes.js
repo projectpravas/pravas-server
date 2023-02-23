@@ -20,6 +20,8 @@ const {
   updateUser,
   getOneUser,
   getAllUsers,
+  isValidUserId,
+  addRemoveTourId,
 } = require("../controllers/user.controller");
 
 router.get("/", getAllUsers);
@@ -27,5 +29,7 @@ router.get("/:id", getOneUser);
 router.delete("/:id", deleteUser);
 router.put("/:id", upload.single("avatar"), updateUser);
 router.post("/", upload.single("avatar"), createUser);
+router.post("/isvalidId", isValidUserId);
+router.post("/add-remove-tourId", addRemoveTourId);
 
 module.exports = router;

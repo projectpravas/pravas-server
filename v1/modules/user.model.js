@@ -19,7 +19,12 @@ const UserSchema = new mongoose.Schema({
   gender: String,
   avatar: String,
   status: String,
-  tours: Array,
+  tours: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "tour",
+    },
+  ],
   userActivityDetails: {
     passwordTimeStamp: Number,
     sentEmailTimeStamp: Number,
