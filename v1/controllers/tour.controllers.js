@@ -1,6 +1,5 @@
 const TourModel = require("../modules/tour.model");
 const UserModel = require("../modules/user.model");
-
 class TourCtrl {
   static createTour(req, res) {
     const tourObj = req?.body;
@@ -36,8 +35,8 @@ class TourCtrl {
 
   static updateTour(req, res) {
     const { id } = req?.params;
-    const tourObj = req?.body;
-
+    let tourObj = req?.body;
+    // console.log(tourObj);
     if (tourObj?.duration) tourObj.duration = JSON.parse(tourObj?.duration);
     if (tourObj?.tourPlan) tourObj.tourPlan = JSON.parse(tourObj?.tourPlan);
 
@@ -151,6 +150,83 @@ class TourCtrl {
           } Couldn't fetched Successfully..`,
           error: err,
         });
+      });
+  }
+
+  static updateReview(req, res) {
+    const { id } = req?.params;
+    let reviewObj = req?.body;
+
+    TourModel.updateOne(
+      { _id: id },
+      [
+        {
+          $set: {
+            feedbacks: {
+              $cond: [
+                { $in: [reviewObj.pravasiId, "$feedbacks.pravasiId"] },
+                {
+                  $map: {
+                    input: "$feedbacks",
+                    in: {
+                      $mergeObjects: [
+                        "$$this",
+                        {
+                          $cond: [
+                            { $eq: ["$$this.pravasiId", reviewObj.pravasiId] },
+                            reviewObj,
+                            {},
+                          ],
+                        },
+                      ],
+                    },
+                  },
+                },
+                { $concatArrays: ["$feedbacks", [reviewObj]] },
+              ],
+            },
+          },
+        },
+      ],
+      { new: true, upsert: true }
+    )
+      .then((result) => {
+        res.status(200).send({
+          message: `Review updated successfully`,
+          data: result,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send({
+          message: `Could not update review`,
+          error: err,
+        });
+      });
+  }
+
+  static getUpcomingTours(req, res) {
+    const { packageId } = req?.params;
+
+    const filter = {
+      $and: [
+        { category: `tour` },
+        { packageId: `${packageId}` },
+        { tourDate: { $gte: new Date() } },
+      ],
+    };
+
+    TourModel.find(filter)
+      .then((result) => {
+        res
+          .status(200)
+          .send({ message: "Upcoming Tours fetched..", data: result });
+      })
+      .catch((err) => {
+        console.error(err);
+        res
+          .status(500)
+          .send({ message: "Upcoming Tours couldn't fetched..", error: err });
       });
   }
 }

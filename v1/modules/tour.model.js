@@ -42,8 +42,11 @@ const TourSchema = new mongoose.Schema({
   feedbacks: [
     {
       pravasiId: String,
+      name: String,
+      rating: Number,
       liked: Boolean,
       comment: String,
+      date: Date,
     },
   ],
 });
