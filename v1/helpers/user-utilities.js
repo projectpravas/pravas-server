@@ -14,6 +14,7 @@ function userFilter(result) {
     "avatar",
     "gender",
     "dob",
+    "designation",
     "tours",
     "userActivityDetails",
   ]);

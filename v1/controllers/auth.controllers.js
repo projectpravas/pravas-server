@@ -10,6 +10,7 @@ class AuthCtrl {
     const { email, password } = req.body;
 
     UserModel.findOne({ email: email })
+      .populate("tours")
       .then((response) => {
         if (!response?._id) {
           res.status(404).send({ error: null, message: "No user Found..." });
