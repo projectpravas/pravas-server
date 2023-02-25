@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
     pincode: String,
   },
   password: String,
+  designation: String,
   role: String,
   dob: Date,
   gender: String,
