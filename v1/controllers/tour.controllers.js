@@ -126,11 +126,13 @@ class TourCtrl {
   }
 
   static getAllTour(req, res) {
-    const { category, packageId } = req?.query;
+    const { category, packageId, tourLocation, tourType } = req?.query;
 
     const filter = {};
 
-    if (category) filter.category = category;
+    category && (filter.category = category);
+    tourLocation && (filter.tourLocation = tourLocation);
+    tourType && (filter.tourType = tourType);
     if (packageId) filter.packageId = packageId;
 
     TourModel.find(filter)
