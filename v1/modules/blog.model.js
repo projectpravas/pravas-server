@@ -13,6 +13,7 @@ const BlogSchema = new mongoose.Schema({
   tags: Array,
   image: String,
   blogStatus: Boolean,
+  creationDate: String,
 });
 
 BlogSchema.plugin(AutoIncrement, { inc_field: "blogId" });
