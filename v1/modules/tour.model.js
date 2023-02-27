@@ -47,6 +47,7 @@ const TourSchema = new mongoose.Schema({
       liked: Boolean,
       comment: String,
       date: Date,
+      approved: String,
     },
   ],
 });

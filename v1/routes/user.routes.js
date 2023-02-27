@@ -22,6 +22,7 @@ const {
   getAllUsers,
   isValidUserId,
   addRemoveTourId,
+  addRemoveWishlist,
 } = require("../controllers/user.controller");
 
 router.get("/", getAllUsers);
@@ -31,5 +32,6 @@ router.put("/:id", upload.single("avatar"), updateUser);
 router.post("/", upload.single("avatar"), createUser);
 router.post("/isvalidId", isValidUserId);
 router.post("/add-remove-tourId", addRemoveTourId);
+router.post("/add-remove-wishlist", addRemoveWishlist);
 
 module.exports = router;
