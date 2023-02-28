@@ -102,6 +102,7 @@ class UserCtrl {
 
     UserModel.findOne(filter)
       .populate("tours")
+      .populate("wishlist")
       .then((result) => {
         if (result?._id == undefined) {
           res.status(404).send({
@@ -226,6 +227,57 @@ class UserCtrl {
         });
     }
   } //addRemoveTourId
+
+  static addRemoveWishlist(req, res) {
+    const { userId, op, tourId } = req?.body;
+
+    const filter = {};
+
+    if (Number(userId).toString() == "NaN") {
+      filter._id = userId;
+    } else {
+      filter.userId = Number(userId);
+    }
+
+    if (op == "add") {
+      UserModel.updateOne(
+        filter,
+        { $addToSet: { wishlist: `${tourId}` } },
+        { new: true }
+      )
+        .then((result) => {
+          res
+            .status(200)
+            .send({ message: "Tour Added into your wishlist", data: result });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).send({
+            message: "Couldn't Add tour into your wishlist",
+            error: err,
+          });
+        });
+    } else {
+      //remove
+      UserModel.updateOne(
+        filter,
+        { $pull: { wishlist: `${tourId}` } },
+        { new: true }
+      )
+        .then((result) => {
+          res
+            .status(200)
+            .send({ message: "Tour Removed from your wishlist", data: result });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).send({
+            message: "Couldn't Removed tour from your wishlist",
+            error: err,
+          });
+        });
+    }
+  }
 }
 
 module.exports = UserCtrl;

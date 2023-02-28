@@ -17,6 +17,7 @@ function userFilter(result) {
     "designation",
     "tours",
     "userActivityDetails",
+    "wishlist",
   ]);
 }
 

@@ -26,6 +26,14 @@ const UserSchema = new mongoose.Schema({
       ref: "tour",
     },
   ],
+
+  wishlist: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "tour",
+    },
+  ],
+
   userActivityDetails: {
     passwordTimeStamp: Number,
     sentEmailTimeStamp: Number,
