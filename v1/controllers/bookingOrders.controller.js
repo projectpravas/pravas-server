@@ -116,6 +116,46 @@ class BookingCtrl {
     }
   }
 
+  static async refund(req, res) {
+    const refundObj = req?.body;
+
+    var razorPay = new Razorpay({
+      key_id: process.env.razorPayId,
+      key_secret: process.env.razorPayKey,
+    });
+
+    const data = await razorPay.payments.fetch(refundObj?.pId);
+    const customerId = data?.notes?.customerId;
+    const tourId = data?.notes?.tourId;
+
+    razorPay.payments
+      .refund(refundObj?.pId, {
+        amount: Number(refundObj?.amount) * 100,
+        speed: "normal",
+        notes: {
+          notes_key_1: "Payment Refunded....",
+        },
+      })
+      .then(async (result) => {
+        // Remove toutr id from User.tours
+        const userModified = await UserModel.updateOne(
+          { _id: customerId },
+          { $pull: { tours: tourId } },
+          { new: true }
+        );
+
+        res
+          .status(200)
+          .send({ message: "refunded successfully...", data: result });
+      })
+      .catch((err) => {
+        console.error(err);
+        res
+          .status(500)
+          .send({ message: "Couldn't refunded amount", error: err });
+      });
+  }
+
   static getPaymentHistory(req, res) {
     const { from, to, last } = req?.body;
 
@@ -138,7 +178,6 @@ class BookingCtrl {
             message: "Payment history fetched Successfully",
             data: response?.items,
           });
-          console.log(response?.items);
         }
       }
     );
