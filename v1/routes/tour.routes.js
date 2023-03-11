@@ -24,18 +24,28 @@ const {
   updateReview,
 } = require("../controllers/tour.controllers");
 
-router.get("/", getAllTour);
+router.get("/", authorize(["admin", "superAdmin", "customer"]), getAllTour);
 router.get("/:id", getOneTour);
 router.get("/upcoming-tours/:packageId", getUpcomingTours);
-router.delete("/:id", deleteTour);
+router.delete("/:id", authorize(["admin", "superAdmin"]), deleteTour);
 
 router.put(
   "/:id",
+  authorize(["admin", "superAdmin"]),
   upload.fields([{ name: "images", maxCount: 10 }]),
   updateTour
 );
-router.put("/update-review/:id", updateReview);
+router.put(
+  "/update-review/:id",
+  authorize(["admin", "superAdmin", "customer"]),
+  updateReview
+);
 
-router.post("/", upload.fields([{ name: "images", maxCount: 10 }]), createTour);
+router.post(
+  "/",
+  authorize(["admin", "superAdmin"]),
+  upload.fields([{ name: "images", maxCount: 10 }]),
+  createTour
+);
 
 module.exports = router;

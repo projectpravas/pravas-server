@@ -9,7 +9,11 @@ const router = require("express").Router();
 
 router.post("/create-order", createOrder);
 router.post("/verify-order", verifyOrder);
-router.post("/payment-history", getPaymentHistory);
-router.post("/refund", refund);
+router.post(
+  "/payment-history",
+  authorize(["admin", "superAdmin"]),
+  getPaymentHistory
+);
+router.post("/refund", authorize(["admin", "superAdmin"]), refund);
 
 module.exports = router;
