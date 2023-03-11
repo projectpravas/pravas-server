@@ -4,6 +4,7 @@ const {
   getPaymentHistory,
   refund,
 } = require("../controllers/bookingOrders.controller");
+const authorize = require("../helpers/middlewares/authorization");
 
 const router = require("express").Router();
 

@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config({ path: "./.env" });
@@ -14,6 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// app.use(express.static("build"));
 app.use(express.static("v1/uploads"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

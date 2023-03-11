@@ -21,6 +21,7 @@ const {
   getOneBlog,
   getAllBlogs,
 } = require("../controllers/blog.controller");
+const authorize = require("../helpers/middlewares/authorization");
 
 router.get("/", getAllBlogs);
 router.get("/:id", getOneBlog);
