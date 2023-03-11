@@ -15,10 +15,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use(express.static("build"));
+app.use(express.static("build"));
 app.use(express.static("v1/uploads"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "build/index.html"));
+});
 
 app.use("/api/v1/enquiries", require("./v1/routes/enquiry.routes"));
 app.use("/api/v1/users", require("./v1/routes/user.routes"));
