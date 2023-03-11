@@ -14,6 +14,6 @@ router.post(
   authorize(["admin", "superAdmin"]),
   getPaymentHistory
 );
-router.post("/refund", refund);
+router.post("/refund", authorize(["admin", "superAdmin"]), refund);
 
 module.exports = router;
