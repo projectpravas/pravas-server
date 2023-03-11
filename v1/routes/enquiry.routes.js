@@ -7,10 +7,10 @@ const {
   updateEnquiry,
 } = require("../controllers/enquiry.controller");
 
-router.get("/", getAllEnquiries);
-router.get("/:id", getOneEnquiry);
-router.delete("/:id", deleteEnquiry);
-router.post("/", createEnquiry);
-router.put("/:id", updateEnquiry);
+router.get("/", authorize(["admin", "superAdmin"]), getAllEnquiries);
+router.get("/:id", authorize(["admin", "superAdmin"]), getOneEnquiry);
+router.delete("/:id", authorize(["admin", "superAdmin"]), deleteEnquiry);
+router.post("/", authorize(["admin", "superAdmin", "customer"]), createEnquiry);
+router.put("/:id", authorize(["admin", "superAdmin"]), updateEnquiry);
 
 module.exports = router;
