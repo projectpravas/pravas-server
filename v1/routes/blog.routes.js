@@ -24,8 +24,18 @@ const {
 
 router.get("/", getAllBlogs);
 router.get("/:id", getOneBlog);
-router.delete("/:id", deleteBlog);
-router.put("/:id", upload.single("image"), updateBlog);
-router.post("/", upload.single("image"), createBlog);
+router.delete("/:id", authorize(["admin", "superAdmin"]), deleteBlog);
+router.put(
+  "/:id",
+  authorize(["admin", "superAdmin"]),
+  upload.single("image"),
+  updateBlog
+);
+router.post(
+  "/",
+  authorize(["admin", "superAdmin"]),
+  upload.single("image"),
+  createBlog
+);
 
 module.exports = router;
