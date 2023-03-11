@@ -6,6 +6,7 @@ const {
   getOneEnquiry,
   updateEnquiry,
 } = require("../controllers/enquiry.controller");
+const authorize = require("../helpers/middlewares/authorization");
 
 router.get("/", authorize(["admin", "superAdmin"]), getAllEnquiries);
 router.get("/:id", authorize(["admin", "superAdmin"]), getOneEnquiry);

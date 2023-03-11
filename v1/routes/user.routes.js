@@ -26,7 +26,7 @@ const {
 } = require("../controllers/user.controller");
 const authorize = require("../helpers/middlewares/authorization");
 
-router.get("/", authorize(["superAdmin"]), getAllUsers);
+router.get("/", getAllUsers);
 router.get("/:id", authorize(["admin", "superAdmin"]), getOneUser);
 router.delete("/:id", authorize(["superAdmin"]), deleteUser);
 router.put(

@@ -23,8 +23,9 @@ const {
   getUpcomingTours,
   updateReview,
 } = require("../controllers/tour.controllers");
+const authorize = require("../helpers/middlewares/authorization");
 
-router.get("/", authorize(["admin", "superAdmin", "customer"]), getAllTour);
+router.get("/", getAllTour);
 router.get("/:id", getOneTour);
 router.get("/upcoming-tours/:packageId", getUpcomingTours);
 router.delete("/:id", authorize(["admin", "superAdmin"]), deleteTour);
