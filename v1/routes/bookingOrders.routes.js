@@ -2,6 +2,7 @@ const {
   createOrder,
   verifyOrder,
   getPaymentHistory,
+  refund,
 } = require("../controllers/bookingOrders.controller");
 
 const router = require("express").Router();
@@ -13,5 +14,6 @@ router.post(
   authorize(["admin", "superAdmin"]),
   getPaymentHistory
 );
+router.post("/refund", refund);
 
 module.exports = router;
